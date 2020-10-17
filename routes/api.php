@@ -26,20 +26,20 @@ $address = Str::random(8)."@".env('EMAIL_DOMAIN');
 $forward = $request->forward_to;
 
 $response = $client->post($endpoint, [
-  'query' => [
-    'address' => $address,
-    'forwards_to' => $forward,
-  ],
   'auth' => [
     'username' => env('MIAB_EMAIL'),
     'password' => env('MIAB_API_KEY')
-    ]
+  ],
+  'query' => [
+    'address' => $address,
+    'forwards_to' => $forward,
+  ]
 ]);
 
 // url will be: http://my.domain.com/test.php?key1=5&key2=ABC;
 
-$statusCode = $response->getStatusCode();
-$content = $response->getBody();
+//$statusCode = $response->getStatusCode();
+//$content = $response->getBody();
 
 // or when your server returns json
  //$content = json_decode($response->getBody(), true);
