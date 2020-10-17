@@ -30,7 +30,7 @@ $response = $client->request('POST', $endpoint, [
     'forwards_to' => $forward,
   ],
   'headers' => [
-    'Authorization'     => env('MIAB_EMAIL').':'.env('MIAB_API_KEY')
+    'Authorization'     => "Basic ".env('MIAB_EMAIL').':'.env('MIAB_API_KEY')
     ]
 ]);
 
