@@ -25,13 +25,13 @@ $client = new \GuzzleHttp\Client();
 $address = Str::random(8)."@".env('EMAIL_DOMAIN');
 $forward = $request->forward_to;
 
-$response = $client->request('POST', $endpoint, [
+$response = $client->post($endpoint, [
   'query' => [
     'address' => $address,
     'forwards_to' => $forward,
   ],
   'auth' => [
-    'username'     => env('MIAB_EMAIL'),
+    'username' => env('MIAB_EMAIL'),
     'password' => env('MIAB_API_KEY')
     ]
 ]);
