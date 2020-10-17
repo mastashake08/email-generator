@@ -56,5 +56,7 @@ if(curl_errno($ch)){
 }
 
 //Print out the response.
-return $response;
+return response()->json([
+  'email' => $address
+]);
 });
