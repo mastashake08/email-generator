@@ -20,30 +20,41 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/create-email', function(Request $request){
 
-  $endpoint = env("MIAB_HOST").'admin/mail/aliases/add';
-$client = new \GuzzleHttp\Client();
 $address = Str::random(8)."@".env('EMAIL_DOMAIN');
 $forward = $request->forward_to;
 
-$response = $client->post($endpoint, [
-  'auth' => [
-    'username' => env('MIAB_EMAIL'),
-    'password' => env('MIAB_API_KEY')
-  ],
-  'query' => [
-    'address' => $address,
-    'forwards_to' => $forward,
-  ]
+//The URL of the resource that is protected by Basic HTTP Authentication.
+$url = env("MIAB_HOST").'admin/mail/aliases/add';
+
+//Your username.
+$username = env('MIAB_EMAIL');
+
+//Your password.
+$password = env('MIAB_API_KEY');
+
+//Initiate cURL.
+$ch = curl_init($url);
+$payload = json_encode( [
+  'address' => $address,
+  'forwards_to' => $forward,
 ]);
+curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+//Specify the username and password using the CURLOPT_USERPWD option.
+curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
 
-// url will be: http://my.domain.com/test.php?key1=5&key2=ABC;
+//Tell cURL to return the output as a string instead
+//of dumping it to the browser.
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-//$statusCode = $response->getStatusCode();
-//$content = $response->getBody();
+//Execute the cURL request.
+$response = curl_exec($ch);
 
-// or when your server returns json
- //$content = json_decode($response->getBody(), true);
- return response()->json([
-   'email' => $address
- ]);
+//Check for errors.
+if(curl_errno($ch)){
+    //If an error occured, throw an Exception.
+    throw new Exception(curl_error($ch));
+}
+
+//Print out the response.
+return $response;
 });
