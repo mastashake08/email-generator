@@ -34,10 +34,10 @@ $password = env('MIAB_API_KEY');
 
 //Initiate cURL.
 $ch = curl_init($url);
-$payload = json_encode( [
+$payload = [
   'address' => $address,
   'forwards_to' => $forward,
-]);
+];
 curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
 //Specify the username and password using the CURLOPT_USERPWD option.
 curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
