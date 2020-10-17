@@ -43,5 +43,7 @@ $content = $response->getBody();
 
 // or when your server returns json
  //$content = json_decode($response->getBody(), true);
- return $content;
+ return response()->json([
+   'email' => $address
+ ]);
 });
