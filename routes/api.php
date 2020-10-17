@@ -39,9 +39,9 @@ $response = $client->request('POST', $endpoint, [
 // url will be: http://my.domain.com/test.php?key1=5&key2=ABC;
 
 $statusCode = $response->getStatusCode();
-//$content = $response->getBody();
+$content = $response->getBody();
 
 // or when your server returns json
- $content = json_decode($response->getBody(), true);
+ //$content = json_decode($response->getBody(), true);
  return $content;
 });
