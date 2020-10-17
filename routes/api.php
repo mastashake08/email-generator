@@ -19,8 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/create-email', function(Request $request){
-  var_dump("Basic ".env('MIAB_EMAIL').':'.env('MIAB_API_KEY'));
-  exit();
+
   $endpoint = env("MIAB_HOST").'admin/mail/aliases/add';
 $client = new \GuzzleHttp\Client();
 $address = Str::random(8)."@".env('EMAIL_DOMAIN');
@@ -32,7 +31,7 @@ $response = $client->request('POST', $endpoint, [
     'forwards_to' => $forward,
   ],
   'headers' => [
-    'Authorization'     => "Basic ".env('MIAB_EMAIL').':'.env('MIAB_API_KEY')
+    'Authorization'     => "Basic ".env('MIAB_API_KEY')
     ]
 ]);
 
